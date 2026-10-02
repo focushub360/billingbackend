@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: pawn-billing-backend
+    env: node
+    region: singapore
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false
+      - key: DB_CLUSTER_BASE
+        sync: false
+      - key: MAIN_DB_NAME
+        value: billingmaindb
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
