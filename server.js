@@ -34,17 +34,20 @@ const corsOptions = {
     if (!origin) return callback(null, true);
     
     const allowedOrigins = [
+      'https://focuspawnbills.netlify.app',
       'https://pawnbillingsoftwarefocus.netlify.app',
+      process.env.FRONTEND_URL,
       'http://localhost:3000',
       'http://localhost:3001',
       'http://localhost:3002',
       'http://localhost:5173',
-    ];
+    ].filter(Boolean);
     
-    // Allow any localhost origin during development
+    // Allow any localhost origin during development or any netlify.app deployment
     const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('https://localhost:');
+    const isNetlify = origin.endsWith('.netlify.app');
     
-    if (allowedOrigins.includes(origin) || (process.env.NODE_ENV !== 'production' && isLocalhost)) {
+    if (allowedOrigins.includes(origin) || isNetlify || (process.env.NODE_ENV !== 'production' && isLocalhost)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
