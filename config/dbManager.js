@@ -13,7 +13,10 @@ class DatabaseManager {
     }
 
     try {
-      const mainDbUri = `${process.env.DB_CLUSTER_BASE}/${process.env.MAIN_DB_NAME}?retryWrites=true&w=majority`;
+      const clusterBase = process.env.DB_CLUSTER_BASE || 'mongodb+srv://littleflowerschool:Focus123engineering@cluster0.gmxndg9.mongodb.net';
+      const mainDbName = process.env.MAIN_DB_NAME || 'billingmaindb';
+      const mainDbUri = process.env.MONGODB_URI || process.env.MONGO_URI || `${clusterBase}/${mainDbName}?retryWrites=true&w=majority`;
+      
       this.mainConnection = await mongoose.createConnection(mainDbUri);
       
       this.mainConnection.on('connected', () => {
@@ -38,8 +41,9 @@ class DatabaseManager {
     }
 
     try {
+      const clusterBase = process.env.DB_CLUSTER_BASE || 'mongodb+srv://littleflowerschool:Focus123engineering@cluster0.gmxndg9.mongodb.net';
       const customerDbName = `customer_${customerId}`;
-      const customerDbUri = `${process.env.DB_CLUSTER_BASE}/${customerDbName}?retryWrites=true&w=majority`;
+      const customerDbUri = `${clusterBase}/${customerDbName}?retryWrites=true&w=majority`;
       
       const connection = await mongoose.createConnection(customerDbUri);
       
